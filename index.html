@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XPath Token Highlighter</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <h1> xpath-token-colorizer </h1>
+    <div class="file-upload">
+      <label class="file-label">
+        Choose HTML file to highlight:
+      </label>
+      <input type="file" id="html-file-selector"/>
+      <label class="file-label">
+        Choose JSON file containing prediction tokens:
+      </label>
+      <input type="file" id="json-file-selector"/>
+    </div>
+    <p id = "html-preview">
+      <h2>Your HTML document will show here.</h2>
+    </p>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
