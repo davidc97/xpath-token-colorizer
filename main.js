@@ -35,9 +35,6 @@ function readHTML(file) {
 
 function readJSON(file) {
   const reader = new FileReader();
-  //TODO: Read text encoding from header of file
-  //currently this is hardcoded to the encoding of EX-2.1.htm
-  reader.readAsText(file, "windows-1252");
   reader.addEventListener(
     "load", () => {
       const text = reader.result;
@@ -46,5 +43,6 @@ function readJSON(file) {
       colorize();
     }
   )
+  reader.readAsText(file, "windows-1252")
 }
 

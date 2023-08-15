@@ -6,7 +6,7 @@ const COLOR_NAMES = ["chartreuse", "blueviolet", "darkorange", "gold", "hotpink"
  "yellow", "steelblue", "mediumpurple", "darksalmon", "slategrey", 
  "seagreen", "wheat", "violet", "turquoise", "sienna", "sandybrown", 
  "royalblue", "saddlebrown", "royalblue", "peachpuff", "slateblue",
- "skyblue", "mintcream", "mistyrose", "navajowhite", "palegoldenrod",
+ "skyblue", "tomato", "mistyrose", "navajowhite", "palegoldenrod",
  "orchid", "lawngreen", "lavender", "indianred", "aqua", "greenyellow"];
 
 const colorMap = new Map();
@@ -65,32 +65,44 @@ export function colorize() {
                         nodeTextNodes.push(childNode);
                     }
                 })
+                let nodeArray = value.nodeArray;
                 //This is dependent on the assumption that every text in the document
                 //has a token and prediction assigned to it, otherwise this won't work.
                 for (let currentNode of nodeTextNodes) {
-                    const nodeArray = value.nodeArray;
-                    // iterate through the array of node -> preds
-                    nodeArray.forEach(([node, pred]) => {
-                        const nodeText = currentNode.nodeValue;
-                        let matchedIndex = nodeText.indexOf(node);
-                        //indexOf returns -1 if not present
-                        if (matchedIndex > -1) {
-                            let splitIndex = matchedIndex + node.length;
-                            //create new element to contain colored text
-                            var span = document.createElement("span");
-                            span.appendChild(document.createTextNode(node));
-                            span.style.backgroundColor = colorMap.get(pred);
-                            // split the text node at the index of the matched string
-                            let newNode = currentNode.splitText(splitIndex);
-                            // delete the old node that contained the uncolored text
-                            newNode.parentNode.removeChild(newNode.previousSibling);
-                            // insert the new colorized text before the rest of the text node's text value
-                            newNode.parentElement.insertBefore(span, newNode);
-                            currentNode = newNode;
+                    let matchedIndex = 0;
+                    let textNode = currentNode;
+                    let nodeString = "";
+                    while (matchedIndex > -1 && nodeArray.length > 0) {
+                        let [node, pred] = nodeArray.shift();
+                        // ignore unknown characters that could not be parsed
+                        while (node.indexOf('�') != -1 && nodeArray.length >= 1) {
+                            [node, pred] = nodeArray.shift();
                         }
-                    })
+                        nodeString += node;
+                        const nodeText = textNode.nodeValue;
+                        matchedIndex = nodeText.indexOf(node.trim());
+                        //indexOf returns -1 if not present
+                        if (matchedIndex == -1) {
+                            // log if node text still had text in it that was unmatched
+                            if (nodeText.trim().length != 0) {
+                                console.log('no match: /"' + node + '/" in this text: ' + nodeText + nodeText.trim().length)
+                            }
+                            break;
+                        }
+                        let splitIndex = matchedIndex + node.trim().length;
+                        //create new element to contain colored text
+                        var span = document.createElement("span");
+                        span.appendChild(document.createTextNode(node));
+                        span.style.backgroundColor = colorMap.get(pred);
+                        // split the text node at the index of the matched string
+                        let newNode = textNode.splitText(splitIndex);
+                        // delete the old node that contained the uncolored text
+                        newNode.parentNode.removeChild(newNode.previousSibling);
+                        // insert the new colorized text before the rest of the text node's text value
+                        newNode.parentElement.insertBefore(span, newNode);
+                        textNode = newNode;
+                    }
                 }
-                                        
             }
         }
     )
