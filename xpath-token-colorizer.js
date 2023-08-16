@@ -132,8 +132,8 @@ function populateColorMap(preds) {
     else {
         predsSplit = preds;
     }
-    console.log(preds);
+    //console.log(preds);
     const colorMapValue = colorMapper[predsSplit];
-    console.log(colorMapValue);
+    //console.log(colorMapValue);
     colorMap.set(preds, colorMapValue);
 }
