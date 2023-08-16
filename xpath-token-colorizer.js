@@ -108,11 +108,32 @@ export function colorize() {
     )
 }
 
+const colorMapper = {
+    t: "DarkOrange",
+    tn: "DarkSalmon",
+    n: "Gold",
+    st: "LightCoral",
+    sn: "IndianRed",
+    sst: "Plum",
+    ssn: "Salmon",
+    ssst: "CadetBlue",
+    sssn: "LightSteelBlue",
+    sssst: "PaleGreen",
+    ssssn: "MediumAquaMarine",
+    o: "Gainsboro"
+  };
+
 // create mapping of pred -> color
 function populateColorMap(preds) {
-    const colorMapValue = colorMap.get(preds);
-    if (colorMapValue === undefined) {
-        colorMap.set(preds, COLOR_NAMES.pop());
+    let predsSplit;
+    if (preds != "o"){
+        predsSplit = preds.split("_")[1];
     }
+    else {
+        predsSplit = preds;
+    }
+    console.log(preds);
+    const colorMapValue = colorMapper[predsSplit];
+    console.log(colorMapValue);
+    colorMap.set(preds, colorMapValue);
 }
-
