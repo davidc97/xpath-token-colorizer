@@ -1,24 +1,5 @@
-
-
-//TODO: need to convert to browser runtime for native xpath processing
-
-const COLOR_NAMES = ["chartreuse", "blueviolet", "darkorange", "gold", "hotpink", "lime",
- "yellow", "steelblue", "mediumpurple", "darksalmon", "slategrey", 
- "seagreen", "wheat", "violet", "turquoise", "sienna", "sandybrown", 
- "royalblue", "saddlebrown", "royalblue", "peachpuff", "slateblue",
- "skyblue", "tomato", "mistyrose", "navajowhite", "palegoldenrod",
- "orchid", "lawngreen", "lavender", "indianred", "aqua", "greenyellow"];
-
 const colorMap = new Map();
 const xpathMap = new Map();
-
-// import HTML file and convert it into DOM elements
-// import json file and JSONify it
-// parseXPaths(json);
-
-// colorize();
-
-
 
 // parse xpaths
 export function parseXPaths(json) {
@@ -132,8 +113,6 @@ function populateColorMap(preds) {
     else {
         predsSplit = preds;
     }
-    //console.log(preds);
     const colorMapValue = colorMapper[predsSplit];
-    //console.log(colorMapValue);
     colorMap.set(preds, colorMapValue);
 }
